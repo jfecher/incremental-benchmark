@@ -22,6 +22,5 @@ fn fib_impl(fib: &Fib, db: &DbHandle<Storage>) -> u32 {
 
 pub fn bench_fib() -> u32 {
     let db = inc_complete::Db::<Storage>::new();
-    let x = 425;
-    Fib(x).get(&db)
+    Fib(crate::FIB_INPUT).get(&db)
 }
