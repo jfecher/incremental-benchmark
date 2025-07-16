@@ -42,7 +42,7 @@ fn fib_driver<'db>(db: &'db dyn salsa::Database, input: FibInput) -> FibX<'db> {
     fib(db, x)
 }
 
-pub fn bench_fib() -> u32 {
+pub fn bench() -> u32 {
     let db = FibDbImpl::default();
     let input = FibInput::new(&db, crate::FIB_INPUT);
     fib_driver(&db, input).x(&db)

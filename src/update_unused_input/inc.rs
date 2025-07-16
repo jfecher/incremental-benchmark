@@ -48,11 +48,17 @@ fn hundred_impl(_: &HundredDeps, db: &DbHandle<Storage>) -> u32 {
 
 pub fn bench() -> u32 {
     let mut db = inc_complete::Db::<Storage>::new();
+    // A difference between inc-complete and salsa:
+    // - Salsa inputs are just structs with fields where in inc-complete
+    //   they are still functions. So in inc-complete we set the return
+    //   value of `Input(0)` as `1` while in salsa we create an `Input`
+    //   struct with a field 1 and need to pass this down explicitly to
+    //   computations which require it.
     Input(0).set(&mut db, 1);
     let result = Root.get(&db);
 
     for i in 0..1000 {
-        // Update an unused input
+        // Input(1) is unused, only Input(0) is used
         Input(1).set(&mut db, i);
         let result = Root.get(&db);
         assert_ne!(result, 0);

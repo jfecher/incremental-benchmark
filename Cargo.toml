@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-inc-complete = "0.5.3"
+inc-complete = "0.6.0"
 salsa = "0.23.0"
