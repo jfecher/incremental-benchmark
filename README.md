@@ -27,3 +27,4 @@ update-used-input-salsa  : 486.190ms
 update-unused-input-inc  : 702.451µs
 update-unused-input-salsa: 81.960ms
 ```
+Currently inc-complete is faster than salsa in each benchmark except for `update-used-input-inc` when compiled in debug mode
