@@ -126,9 +126,9 @@ dependencies = [
 
 [[package]]
 name = "inc-complete"
-version = "0.7.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3dff045072f3242a91372b86510e980bfb21abb46a202880b8475545a5854716"
+checksum = "4cbafaaaced0ee4f767975428842524fa8df337654919b53f7ac78c93389650d"
 dependencies = [
  "dashmap",
  "inc-complete-derive",
@@ -140,9 +140,9 @@ dependencies = [
 
 [[package]]
 name = "inc-complete-derive"
-version = "0.6.2"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "956188b3b12ee0e2f2ad75ecf9f62eb3d79dc35330fc0ab12da9ed1172b8e6af"
+checksum = "8123bec43f923666836ff19951f4c2020e7c96c2a58f97a8ba36a9ce9f45425d"
 dependencies = [
  "proc-macro2",
  "quote",
