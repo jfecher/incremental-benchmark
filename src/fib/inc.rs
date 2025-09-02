@@ -5,7 +5,7 @@ struct Storage {
     fibs: HashMapStorage<Fib>,
 }
 
-impl_storage!(Storage, fibs: Fib);
+impl_storage!(Storage, fibs: Fib,);
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 struct Fib(u32);
