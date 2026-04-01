@@ -18,19 +18,19 @@ impl_storage!(Storage,
     inputs: Input,
 );
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 struct Root;
 define_intermediate!(0, Root -> u32, Storage, root_impl);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct TenDeps(u32);
 define_intermediate!(1, TenDeps -> u32, Storage, ten_impl);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct HundredDeps(u32, u32);
 define_intermediate!(2, HundredDeps -> u32, Storage, hundred_impl);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct Input(u32);
 define_input!(3, Input -> u32, Storage);
 
@@ -49,9 +49,11 @@ fn hundred_impl(_: &HundredDeps, db: &DbHandle<Storage>) -> u32 {
 pub fn bench() -> u32 {
     let mut db = inc_complete::Db::<Storage>::new();
 
-    (0..1000).map(|i| {
-        // Input(1) is unused, only Input(0) is used
-        Input(0).set(&mut db, i);
-        Root.get(&db)
-    }).sum()
+    (0..1000)
+        .map(|i| {
+            // Input(1) is unused, only Input(0) is used
+            Input(0).set(&mut db, i);
+            Root.get(&db)
+        })
+        .sum()
 }

@@ -12,21 +12,38 @@ Current timings on my M1 Mac:
 
 ```
 $ cargo run
-fib-inc                  : 3.510s
-fib-salsa                : 5.812s
-fib-salsa-raw-u32        : 5.961s
-update-used-input-inc    : 8.409s
-update-used-input-salsa  : 7.652s
-update-unused-input-inc  : 12.680ms
-update-unused-input-salsa: 1.857s
+fib-inc                  : 3.700s
+fib-salsa                : 4.617s
+fib-salsa-raw-u32        : 4.603s
+update-used-input-inc    : 8.325s
+update-used-input-salsa  : 6.797s
+update-unused-input-inc  : 13.386ms
+update-unused-input-salsa: 1.588s
+accumulate-inc           : 17.500s
+accumulate-inc-uncached  : 8.483s
+accumulate-salsa         : 8.340s
+accumulate-repeat-inc    : 75.808ms
+accumulate-repeat-inc-uncached: 1.320s
+accumulate-repeat-salsa  : 1.338s
 
 $ cargo run --release
-fib-inc                  : 163.726ms
-fib-salsa                : 270.835ms
-fib-salsa-raw-u32        : 283.114ms
-update-used-input-inc    : 353.958ms
-update-used-input-salsa  : 518.638ms
-update-unused-input-inc  : 694.375µs
-update-unused-input-salsa: 88.334ms
+fib-inc                  : 167.378ms
+fib-salsa                : 219.545ms
+fib-salsa-raw-u32        : 223.521ms
+update-used-input-inc    : 363.602ms
+update-used-input-salsa  : 453.163ms
+update-unused-input-inc  : 734.167µs
+update-unused-input-salsa: 91.087ms
+accumulate-inc           : 949.743ms
+accumulate-inc-uncached  : 432.848ms
+accumulate-salsa         : 366.509ms
+accumulate-repeat-inc    : 4.229ms
+accumulate-repeat-inc-uncached: 63.258ms
+accumulate-repeat-salsa  : 47.670ms
 ```
-Currently inc-complete is faster than salsa in each benchmark except for `update-used-input-inc` when compiled in debug mode
+
+Some notes:
+- `update-used-input`: inc-complete's used inputs optimization slows down the general case here in debug mode
+- `update-unused-input`: inc-complete is significantly faster than salsa in debug & release due to the above optimization. Untested: using `Durability`s other than the default in salsa may improve its time here.
+- `accumulate-inc`: inc-complete's `Db::get_accumulated` is cached by default in inc-complete (reusing the same mechanism for queries), and is generally slower for it. Unlike `Db::get_accumulated_uncached` and salsa though, it can be safely used within queries.
+- `accumulate-repeat`: a version of the accumulated test but reusing the same database object. This shows how the caching behavior of `Db::get_accumulated` can sometimes be faster.

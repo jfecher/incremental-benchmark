@@ -18,19 +18,19 @@ impl_storage!(Storage,
     inputs: Input,
 );
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 struct Root;
 define_intermediate!(0, Root -> u32, Storage, root_impl);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct TenDeps(u32);
 define_intermediate!(1, TenDeps -> u32, Storage, ten_impl);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct HundredDeps(u32, u32);
 define_intermediate!(2, HundredDeps -> u32, Storage, hundred_impl);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct Input(u32);
 define_input!(3, Input -> u32, Storage);
 

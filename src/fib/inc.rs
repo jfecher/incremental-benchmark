@@ -1,18 +1,15 @@
-use inc_complete::{DbHandle, define_intermediate, impl_storage, storage::HashMapStorage};
+use inc_complete::{DbHandle, Storage, define_intermediate, intermediate, storage::HashMapStorage};
 
-#[derive(Default)]
-struct Storage {
+#[derive(Default, Storage)]
+struct MyStorage {
     fibs: HashMapStorage<Fib>,
 }
 
-impl_storage!(Storage, fibs: Fib,);
-
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct Fib(u32);
 
-define_intermediate!(0, Fib -> u32, Storage, fib_impl);
-
-fn fib_impl(fib: &Fib, db: &DbHandle<Storage>) -> u32 {
+#[intermediate(id = 0)]
+fn fib_impl(fib: &Fib, db: &DbHandle<MyStorage>) -> u32 {
     if fib.0 < 2 {
         fib.0
     } else {
@@ -21,6 +18,6 @@ fn fib_impl(fib: &Fib, db: &DbHandle<Storage>) -> u32 {
 }
 
 pub fn bench() -> u32 {
-    let db = inc_complete::Db::<Storage>::new();
+    let db = inc_complete::Db::<MyStorage>::new();
     Fib(crate::FIB_INPUT).get(&db)
 }
