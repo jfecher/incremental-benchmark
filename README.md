@@ -12,38 +12,37 @@ Current timings on my M1 Mac:
 
 ```
 $ cargo run
-fib-inc                  : 3.700s
-fib-salsa                : 4.617s
-fib-salsa-raw-u32        : 4.603s
-update-used-input-inc    : 8.325s
-update-used-input-salsa  : 6.797s
-update-unused-input-inc  : 13.386ms
-update-unused-input-salsa: 1.588s
-accumulate-inc           : 17.500s
-accumulate-inc-uncached  : 8.483s
-accumulate-salsa         : 8.340s
-accumulate-repeat-inc    : 75.808ms
-accumulate-repeat-inc-uncached: 1.320s
-accumulate-repeat-salsa  : 1.338s
+fib-inc                  : 1.853s
+fib-salsa                : 4.961s
+fib-salsa-raw-u32        : 4.964s
+update-used-input-inc    : 2.819s
+update-used-input-salsa  : 7.147s
+update-unused-input-inc  : 615.687ms
+update-unused-input-salsa: 1.715s
+accumulate-inc           : 8.589s
+accumulate-inc-uncached  : 4.478s
+accumulate-salsa         : 9.172s
+accumulate-repeat-inc    : 64.777ms
+accumulate-repeat-inc-uncached: 1.155s
+accumulate-repeat-salsa  : 1.445s
 
 $ cargo run --release
-fib-inc                  : 167.378ms
-fib-salsa                : 219.545ms
-fib-salsa-raw-u32        : 223.521ms
-update-used-input-inc    : 363.602ms
-update-used-input-salsa  : 453.163ms
-update-unused-input-inc  : 734.167µs
-update-unused-input-salsa: 91.087ms
-accumulate-inc           : 949.743ms
-accumulate-inc-uncached  : 432.848ms
-accumulate-salsa         : 366.509ms
-accumulate-repeat-inc    : 4.229ms
-accumulate-repeat-inc-uncached: 63.258ms
-accumulate-repeat-salsa  : 47.670ms
+fib-inc                  : 95.816ms
+fib-salsa                : 227.663ms
+fib-salsa-raw-u32        : 232.213ms
+update-used-input-inc    : 126.208ms
+update-used-input-salsa  : 482.459ms
+update-unused-input-inc  : 54.324ms
+update-unused-input-salsa: 96.252ms
+accumulate-inc           : 544.639ms
+accumulate-inc-uncached  : 255.040ms
+accumulate-salsa         : 390.672ms
+accumulate-repeat-inc    : 3.687ms
+accumulate-repeat-inc-uncached: 54.753ms
+accumulate-repeat-salsa  : 52.944ms
 ```
 
 Some notes:
-- `update-used-input`: inc-complete's used inputs optimization slows down the general case here in debug mode
-- `update-unused-input`: inc-complete is significantly faster than salsa in debug & release due to the above optimization. Untested: using `Durability`s other than the default in salsa may improve its time here.
 - `accumulate-inc`: inc-complete's `Db::get_accumulated` is cached by default in inc-complete (reusing the same mechanism for queries), and is generally slower for it. Unlike `Db::get_accumulated_uncached` and salsa though, it can be safely used within queries.
 - `accumulate-repeat`: a version of the accumulated test but reusing the same database object. This shows how the caching behavior of `Db::get_accumulated` can sometimes be faster.
+- Generally inc-complete is faster in large part to it using monomorphized traits where salsa uses existentials. This is a compile-time tradeoff as well.
