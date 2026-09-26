@@ -51,18 +51,18 @@ fn ten_impl<'db>(db: &'db dyn salsa::Database, ctx: TenDeps<'db>) -> u32 {
 
 #[salsa::tracked]
 fn hundred_impl<'db>(db: &'db dyn salsa::Database, ctx: HundredDeps<'db>) -> u32 {
-    ctx.input(db).x(db)
+    *ctx.input(db).x(db)
 }
 
 pub fn bench() -> u32 {
     let mut db = UpdateInputDbImpl::default();
     let input = Input::new(&db, 1);
-    let result = root_impl(&db, Root::new(&db, input));
+    let result = *root_impl(&db, Root::new(&db, input));
 
     for i in 0..1000 {
         // Update an unused input
         Input::new(&db, 2).set_x(&mut db).to(i);
-        let result = root_impl(&db, Root::new(&db, input));
+        let result = *root_impl(&db, Root::new(&db, input));
         assert_ne!(result, 0);
     }
 

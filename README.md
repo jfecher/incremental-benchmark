@@ -12,34 +12,34 @@ Current timings on my M1 Mac:
 
 ```
 $ cargo run
-fib-inc                  : 1.853s
-fib-salsa                : 4.961s
-fib-salsa-raw-u32        : 4.964s
-update-used-input-inc    : 2.819s
-update-used-input-salsa  : 7.147s
-update-unused-input-inc  : 615.687ms
-update-unused-input-salsa: 1.715s
-accumulate-inc           : 8.589s
-accumulate-inc-uncached  : 4.478s
-accumulate-salsa         : 9.172s
-accumulate-repeat-inc    : 64.777ms
-accumulate-repeat-inc-uncached: 1.155s
-accumulate-repeat-salsa  : 1.445s
+fib-inc                  : 1.843s
+fib-salsa                : 3.692s
+fib-salsa-raw-u32        : 3.690s
+update-used-input-inc    : 2.756s
+update-used-input-salsa  : 7.146s
+update-unused-input-inc  : 624.286ms
+update-unused-input-salsa: 2.145s
+accumulate-inc           : 8.499s
+accumulate-inc-uncached  : 3.946s
+accumulate-salsa         : 8.814s
+accumulate-repeat-inc    : 72.172ms
+accumulate-repeat-inc-uncached: 601.584ms
+accumulate-repeat-salsa  : 1.347s
 
 $ cargo run --release
-fib-inc                  : 95.816ms
-fib-salsa                : 227.663ms
-fib-salsa-raw-u32        : 232.213ms
-update-used-input-inc    : 126.208ms
-update-used-input-salsa  : 482.459ms
-update-unused-input-inc  : 54.324ms
-update-unused-input-salsa: 96.252ms
-accumulate-inc           : 544.639ms
-accumulate-inc-uncached  : 255.040ms
-accumulate-salsa         : 390.672ms
-accumulate-repeat-inc    : 3.687ms
-accumulate-repeat-inc-uncached: 54.753ms
-accumulate-repeat-salsa  : 52.944ms
+fib-inc                  : 94.547ms
+fib-salsa                : 163.155ms
+fib-salsa-raw-u32        : 173.800ms
+update-used-input-inc    : 120.207ms
+update-used-input-salsa  : 466.095ms
+update-unused-input-inc  : 47.669ms
+update-unused-input-salsa: 66.819ms
+accumulate-inc           : 543.754ms
+accumulate-inc-uncached  : 228.786ms
+accumulate-salsa         : 379.721ms
+accumulate-repeat-inc    : 3.699ms
+accumulate-repeat-inc-uncached: 30.456ms
+accumulate-repeat-salsa  : 53.092ms
 ```
 
 Some notes:

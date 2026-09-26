@@ -49,7 +49,7 @@ fn ten_impl<'db>(db: &'db dyn salsa::Database, ctx: TenDeps<'db>) -> u32 {
 
 #[salsa::tracked]
 fn hundred_impl<'db>(db: &'db dyn salsa::Database, ctx: HundredDeps<'db>) -> u32 {
-    ctx.input(db).x(db)
+    *ctx.input(db).x(db)
 }
 
 pub fn bench() -> u32 {

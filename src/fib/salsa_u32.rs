@@ -31,19 +31,19 @@ fn fib<'db>(db: &'db dyn salsa::Database, empty: Empty<'db>, x: u32) -> FibX<'db
     if x < 2 {
         FibX::new(db, x)
     } else {
-        let x1 = fib(db, empty, x - 2).x(db);
-        let x2 = fib(db, empty, x - 1).x(db);
+        let x1 = *fib(db, empty, x - 2).x(db);
+        let x2 = *fib(db, empty, x - 1).x(db);
         FibX::new(db, x1.wrapping_add(x2))
     }
 }
 
 #[salsa::tracked]
 fn fib_driver<'db>(db: &'db dyn salsa::Database, input: FibInput) -> FibX<'db> {
-    fib(db, Empty::new(db), input.x(db))
+    *fib(db, Empty::new(db), *input.x(db))
 }
 
 pub fn bench_fib() -> u32 {
     let db = FibDbImpl::default();
     let input = FibInput::new(&db, crate::FIB_INPUT);
-    fib_driver(&db, input).x(&db)
+    *fib_driver(&db, input).x(&db)
 }
