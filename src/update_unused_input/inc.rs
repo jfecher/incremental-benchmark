@@ -10,16 +10,16 @@ struct MyStorage {
     inputs: HashMapStorage<Input>,
 }
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 struct Root;
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct TenDeps(u32);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct HundredDeps(u32, u32);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash, Input)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Input)]
 #[inc_complete(id = 3, output = u32, storage = MyStorage)]
 struct Input(u32);
 

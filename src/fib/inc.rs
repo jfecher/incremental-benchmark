@@ -1,11 +1,11 @@
-use inc_complete::{define_intermediate, intermediate, storage::HashMapStorage, DbHandle, Storage};
+use inc_complete::{DbHandle, Storage, define_intermediate, intermediate, storage::HashMapStorage};
 
 #[derive(Default, Storage)]
 struct MyStorage {
     fibs: HashMapStorage<Fib>,
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct Fib(u32);
 
 #[intermediate(id = 0)]

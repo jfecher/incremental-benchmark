@@ -10,16 +10,16 @@ struct MyStorage {
     inputs: HashMapStorage<Input>,
 }
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 struct Root;
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct TenDeps(u32);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 struct HundredDeps(u32, u32);
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash, Input)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Input)]
 #[inc_complete(id = 3, output = u32, storage = MyStorage)]
 struct Input(u32);
 
@@ -41,9 +41,11 @@ fn hundred_impl(_: &HundredDeps, db: &DbHandle<MyStorage>) -> u32 {
 pub fn bench() -> u32 {
     let mut db = inc_complete::Db::<MyStorage>::new();
 
-    (0..1000).map(|i| {
-        // Input(1) is unused, only Input(0) is used
-        Input(0).set(&mut db, i);
-        Root.get(&db)
-    }).sum()
+    (0..1000)
+        .map(|i| {
+            // Input(1) is unused, only Input(0) is used
+            Input(0).set(&mut db, i);
+            Root.get(&db)
+        })
+        .sum()
 }

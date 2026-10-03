@@ -23,15 +23,15 @@ struct FibInput {
 
 #[salsa::tracked]
 fn fib<'db>(db: &'db dyn salsa::Database, input: FibX<'db>) -> FibX<'db> {
-    let x = input.x(db);
+    let x = *input.x(db);
 
     if x < 2 {
         FibX::new(db, x)
     } else {
         let xm2 = FibX::new(db, x - 2);
         let xm1 = FibX::new(db, x - 1);
-        let x1 = fib(db, xm2).x(db);
-        let x2 = fib(db, xm1).x(db);
+        let x1 = *fib(db, xm2).x(db);
+        let x2 = *fib(db, xm1).x(db);
         FibX::new(db, x1.wrapping_add(x2))
     }
 }
@@ -39,11 +39,11 @@ fn fib<'db>(db: &'db dyn salsa::Database, input: FibX<'db>) -> FibX<'db> {
 #[salsa::tracked]
 fn fib_driver<'db>(db: &'db dyn salsa::Database, input: FibInput) -> FibX<'db> {
     let x = FibX::new(db, input.x(db));
-    fib(db, x)
+    *fib(db, x)
 }
 
 pub fn bench() -> u32 {
     let db = FibDbImpl::default();
     let input = FibInput::new(&db, crate::FIB_INPUT);
-    fib_driver(&db, input).x(&db)
+    *fib_driver(&db, input).x(&db)
 }
